@@ -1,0 +1,15 @@
+.myBtn {
+  padding: 5px 15px;
+  color: olive;
+  background-color: transparent;
+  border: 1px solid olive;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover,
+  &:focus {
+    background-color: olive;
+    color: white;
+  }
+}
