@@ -9,20 +9,22 @@ use App\Models\Warehouse;
 
 class WarehouseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return WarehouseResource::collection(Warehouse::all());
+        $limit = intval($request->get('_limit')) ?? 3;
+
+        return WarehouseResource::collection(Warehouse::take($limit)->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return WarehouseResource
      */
     public function store(StoreWarehouseRequest $request)
     {
-        $this->authorize('warehouse_create');
+//        $this->authorize('warehouse_create');
 
         $model = Warehouse::create($request->validated());
 

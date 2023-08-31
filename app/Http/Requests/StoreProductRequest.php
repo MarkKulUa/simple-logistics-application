@@ -26,14 +26,9 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:1', 'max:255'],
             'price' => ['required', 'decimal:10,2'],
-            'supplier_id' => ['required', 'integer']
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'category_id' => 'category'
+            'supplier_id' => ['required', 'integer'],
+            'warehouse_id' => ['required', 'integer'],
+            'quantity_in_stock' => ['required', 'integer']
         ];
     }
 }

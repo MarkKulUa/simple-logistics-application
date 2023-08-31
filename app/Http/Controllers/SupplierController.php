@@ -9,20 +9,22 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return SupplierResource::collection(Supplier::all());
+        $limit = intval($request->get('_limit')) ?? 3;
+
+        return SupplierResource::collection(Supplier::take($limit)->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return SupplierResource
      */
     public function store(StoreSupplierRequest $request)
     {
-        $this->authorize('warehouse_create');
+//        $this->authorize('supplier_create');
 
         $model = Supplier::create($request->validated());
 

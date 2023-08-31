@@ -28,11 +28,4 @@ class StoreSupplierRequest extends FormRequest
             'address' => ['required', 'string', 'min:1', 'max:1024']
         ];
     }
-
-    public function attributes()
-    {
-        return [
-            'category_id' => 'category'
-        ];
-    }
 }

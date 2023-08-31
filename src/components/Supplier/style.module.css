@@ -1,0 +1,25 @@
+.item {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border: 2px solid var(--secondary-color);
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &:hover,
+  &:focus {
+    scale: 1.05;
+  }
+}
+
+.btnList {
+  display: flex;
+  margin-left: 10px;
+  gap: 5px;
+}

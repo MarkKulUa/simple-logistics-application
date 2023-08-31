@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
                 'name' => $this->suplier->name ?? '',
                 'address' => $this->suplier->address ?? '',
             ],
+            'warehouses' => $this->warehouses,
             'created_at' => $this->created_at->toDateTimeString()
         ];
     }

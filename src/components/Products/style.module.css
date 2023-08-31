@@ -1,0 +1,23 @@
+.container {
+  padding: 15px;
+  flex: 1;
+}
+
+.heading {
+  font-size: 2rem;
+  line-height: 1;
+  text-align: center;
+  margin: 10px 0 10px 0;
+}
+
+.btnList {
+  margin-bottom: 10px;
+}
+
+.createBtn {
+  margin-right: 10px;
+}
+
+.refetchBtn {
+  margin-right: 20px;
+}

@@ -30,10 +30,10 @@ class StoreWarehouseRequest extends FormRequest
         ];
     }
 
-    public function attributes()
-    {
-        return [
-            'category_id' => 'category'
-        ];
-    }
+//    public function attributes()
+//    {
+//        return [
+//            'supplier_id' => 'supplier'
+//        ];
+//    }
 }
