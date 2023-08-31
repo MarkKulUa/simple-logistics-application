@@ -20,7 +20,7 @@ export const Login = () => {
             const resp = await axios.post('/login', body);
             if (resp.status === 200 && resp.data.user) {
                 setUser(resp.data.user);
-                return <Navigate to="/shop" />;
+                return window.location = "/shop";
             }
         } catch (error) {
             if (error.response.status === 401) {
