@@ -33,3 +33,6 @@ To get started with this project, you'll need to follow these steps:
 
 P.s. After migration, the seeder created a test user with an email "test@example.com" and password "password".
 You can use them to check if authorization works.
+
+P.s.s.
+ A short video preview of the implementation of this task https://www.loom.com/share/71b63812ec87409687e224cc35a05e20?sid=d99f8e04-3d94-4ea2-af64-21b475b76184
