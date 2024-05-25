@@ -1,6 +1,21 @@
 # Simple Logistics Application
 
-To get started with this project, you'll need to follow these steps:
+**Tech stack:**
+- Laravel
+- React
+
+**Task:**
+1. Design a database
+2. Login to the system
+3. Add a product (name, price, supplier, warehouse)
+4. Add a supplier (name, address)
+5. Add a warehouse (supplier, address)
+6. Each warehouse may have different products in stock.
+7. Each warehouse can have multiple products from different suppliers.
+8. Take advantage of the Laravel framework
+
+
+## To get started:
 
 1. Clone the repository:
 
