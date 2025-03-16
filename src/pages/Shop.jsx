@@ -3,7 +3,7 @@ import Suppliers from "../components/Suppliers/Suppliers";
 import Warehouses from "../components/Warehouses/Warehouses";
 import Products from "../components/Products/Products";
 
-export const Shop = () => {
+const Shop = () => {
     return (
         <>
             <div className="text-6xl font-bold text-slate-600">Warehouse</div>
@@ -14,3 +14,5 @@ export const Shop = () => {
         </>
     );
 }
+
+export default Shop;

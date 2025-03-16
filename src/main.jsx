@@ -1,32 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {Routes, Route, BrowserRouter} from 'react-router-dom';
-import {AuthProvider} from './contexts/AuthContext';
-import './index.css';
-import {Login} from './pages/Login';
-import {Welcome} from './pages/Welcome';
-import {Shop} from './pages/Shop';
-import {Layout} from './components/Layout';
-import {NotFoundPage} from './pages/NotFoundPage';
-import {Provider} from 'react-redux';
-import {setupStore} from './store/store';
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import Spinner from "./components/Spinner/Spinner";
+import { Provider } from "react-redux";
+import { setupStore } from "./store/store";
+import { routes } from "./routes";
+import "./index.css";
 
 const store = setupStore();
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <React.StrictMode>
             <AuthProvider>
                 <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Layout/>}>
-                            <Route index element={<Welcome/>}/>
-                            <Route path="shop" element={<Shop/>}/>
-                            <Route path="login" element={<Login/>}/>
-                            <Route path="404" element={<NotFoundPage/>}/>
-                        </Route>
-                        <Route path="*" element={<NotFoundPage/>}/>
-                    </Routes>
+                    <Suspense fallback={<Spinner />}>
+                        <Routes>
+                            {routes.map(({ path, element, children }) => (
+                                <Route key={path} path={path} element={element}>
+                                    {children?.map(({ path, element, index }) => (
+                                        <Route key={path || "index"} path={path} element={element} index={index} />
+                                    ))}
+                                </Route>
+                            ))}
+                        </Routes>
+                    </Suspense>
                 </BrowserRouter>
             </AuthProvider>
         </React.StrictMode>

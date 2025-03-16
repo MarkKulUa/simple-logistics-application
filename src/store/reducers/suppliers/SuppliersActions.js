@@ -1,71 +1,71 @@
-import axios from "axios";
+import axios from 'axios'
 
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
-const host = (import.meta.env.VITE_API_URL || "http://localhost:8000/api");
+const host = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api')
 export const fetchSuppliers = createAsyncThunk(
-  "suppliers/fetchSuppliers",
+  'suppliers/fetchSuppliers',
   async (limit, thunkAPI) => {
     try {
       const response = await axios.get(
-          host +`/suppliers?_limit=${limit}`
-      );
-      return response.data;
+        host + `/suppliers?_limit=${limit}`
+      )
+      return response.data
     } catch (error) {
-      return thunkAPI.rejectWithValue("No suppliers found");
+      return thunkAPI.rejectWithValue('No suppliers found')
     }
   }
-);
+)
 
 export const createSupplier = createAsyncThunk(
-  "suppliers/createSupplier",
+  'suppliers/createSupplier',
   async (newSupplier, thunkAPI) => {
     try {
       const response = await axios.supplier(
-          host + "/suppliers",
+        host + '/suppliers',
         newSupplier
-      );
-      return response.data;
+      )
+      return response.data
     } catch (error) {
-      return thunkAPI.rejectWithValue("No suppliers added");
+      return thunkAPI.rejectWithValue('No suppliers added')
     }
   }
-);
+)
 
 export const updateSupplier = createAsyncThunk(
-  "suppliers/updateSupplier",
+  'suppliers/updateSupplier',
   async (supplier, thunkAPI) => {
     try {
       const { data } = await axios.put(
         `${host}/suppliers/${supplier.id}`,
         supplier
-      );
-      return { ...supplier, ...data };
+      )
+      return { ...supplier, ...data }
     } catch (error) {
-      return thunkAPI.rejectWithValue("No suppliers updated");
+      return thunkAPI.rejectWithValue('No suppliers updated')
     }
   }
-);
+)
 export const deleteSupplier = createAsyncThunk(
-  "suppliers/deleteSupplier",
+  'suppliers/deleteSupplier',
   async (supplier, thunkAPI) => {
     try {
-      const { data } = await axios.delete<ISupplier>(
+      const { data } = await axios.delete < ISupplier > (
         `${host}/suppliers/${supplier.id}`
-      );
-      return { id: supplier.id, data };
+      )
+      return { id: supplier.id, data }
     } catch (error) {
-      return thunkAPI.rejectWithValue("No suppliers deleted");
+      return thunkAPI.rejectWithValue('No suppliers deleted')
     }
   }
-);
+)
 export const changeSupplierPerPage = createAsyncThunk(
-  "suppliers/changeSupplierPerPage",
+  'suppliers/changeSupplierPerPage',
   async (limit, thunkAPI) => {
     try {
-      return limit;
+      return limit
     } catch (error) {
-      return thunkAPI.rejectWithValue("No suppliers deleted");
+      return thunkAPI.rejectWithValue('No suppliers deleted')
     }
   }
-);
+)

@@ -2,8 +2,9 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import axios from '../axios';
 import { useAuth } from '../contexts/AuthContext';
+import NotFoundPage from "./NotFoundPage";
 
-export const Login = () => {
+const Login = () => {
     const { user, setUser, csrfToken } = useAuth();
     const [error, setError] = React.useState(null);
 
@@ -105,3 +106,5 @@ export const Login = () => {
         </section>
     );
 }
+
+export default Login;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Welcome = () => {
+const Welcome = () => {
     return (
         <>
             <div className="text-6xl font-bold text-slate-600">Welcome Page</div>
@@ -16,3 +16,5 @@ export const Welcome = () => {
         </>
     );
 }
+
+export default Welcome;

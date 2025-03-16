@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect_uri' => env('GOOGLE_REDIRECT_URI'),
+        'credentials_path' => env('GOOGLE_APPLICATION_CREDENTIALS_PATH', 'app/google/credentials.json'),
+        'scopes' => explode(',', env('GOOGLE_SCOPES', 'https://www.googleapis.com/auth/contacts')),
+        'token_path' => env('GOOGLE_CLIENT_TOKEN_PATH', 'app/google/token.json'),
+    ],
 ];

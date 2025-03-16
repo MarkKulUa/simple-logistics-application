@@ -1,22 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\ContactControllers\GoogleContactController;
 
 Route::view('/', 'app');
-
 Route::view('/{any?}', 'app')->where('any', '.*');
+
+Route::middleware('web')->group(function () {
+    Route::get('/refresh-google-token', function () {
+        Artisan::call('google:refresh-token');
+        return 'Token refreshed successfully';
+    });
+
+    Route::get('/export-for-google-contacts', [GoogleContactController::class, 'exportToCsv']);
+
+    Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
+    Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+});
