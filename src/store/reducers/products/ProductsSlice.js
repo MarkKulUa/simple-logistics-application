@@ -1,54 +1,54 @@
-import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from '@reduxjs/toolkit'
 import {
   changeProductPerPage,
   createProduct,
   deleteProduct,
   fetchProducts,
-  updateProduct,
-} from "./ProductsActions";
+  updateProduct
+} from './ProductsActions'
 
 const getErrorMessage = (payload) => {
-  if (typeof payload === "string") {
-    return payload;
+  if (typeof payload === 'string') {
+    return payload
   }
-  return "An error occurred";
-};
+  return 'An error occurred'
+}
 
 const initialState = {
   products: [],
   isLoading: false,
-  error: "",
-  productsPerPage: 5,
-};
+  error: '',
+  productsPerPage: 5
+}
 
 export const productSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, { payload }) => {
-        state.products = payload || [];
+        state.products = payload || []
       })
       .addCase(createProduct.fulfilled, (state, { payload }) => {
-        state.products = [...state.products, payload];
+        state.products = [...state.products, payload]
       })
       .addCase(deleteProduct.fulfilled, (state, { payload }) => {
-        state.products = state.products.filter((product) => product.id !== payload.id);
+        state.products = state.products.filter((product) => product.id !== payload.id)
       })
       .addCase(updateProduct.fulfilled, (state, { payload }) => {
         state.products = state.products.map((product) =>
           product.id === payload.id ? payload : product
-        );
+        )
       })
       .addCase(changeProductPerPage.fulfilled, (state, { payload }) => {
-        state.productsPerPage = payload;
+        state.productsPerPage = payload
       })
       .addMatcher(
         isAnyOf(fetchProducts.pending, createProduct.pending, deleteProduct.pending),
         (state) => {
-          state.isLoading = true;
-          state.error = "";
+          state.isLoading = true
+          state.error = ''
         }
       )
       .addMatcher(
@@ -58,18 +58,18 @@ export const productSlice = createSlice({
           deleteProduct.fulfilled
         ),
         (state) => {
-          state.isLoading = false;
-          state.error = "";
+          state.isLoading = false
+          state.error = ''
         }
       )
       .addMatcher(
         isAnyOf(fetchProducts.rejected, createProduct.rejected, deleteProduct.rejected),
         (state, { payload }) => {
-          state.isLoading = false;
-          state.error = getErrorMessage(payload);
+          state.isLoading = false
+          state.error = getErrorMessage(payload)
         }
-      );
-  },
-});
+      )
+  }
+})
 
-export default productSlice.reducer;
+export default productSlice.reducer

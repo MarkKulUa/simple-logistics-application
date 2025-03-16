@@ -1,6 +1,8 @@
 import React from 'react';
+import Shop from "./Shop";
+import Spinner from "../components/Spinner/Spinner";
 
-export const NotFoundPage = () => {
+const NotFoundPage = () => {
     return (
         <>
             <div className="text-6xl font-bold text-slate-600">Page Not Found</div>
@@ -11,3 +13,5 @@ export const NotFoundPage = () => {
         </>
     );
 }
+
+export default NotFoundPage;

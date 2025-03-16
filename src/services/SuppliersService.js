@@ -1,41 +1,41 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const supplierAPI = createApi({
-  reducerPath: "supplierAPI",
+  reducerPath: 'supplierAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL || "http://localhost:8000/api",
+    baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
   }),
-  tagTypes: ["Supplier"],
+  tagTypes: ['Supplier'],
   endpoints: (build) => ({
     fetchAllSuppliers: build.query({
       query: (limit = 5) => ({
-        url: "/suppliers",
-        params: { _limit: limit },
+        url: '/suppliers',
+        params: { _limit: limit }
       }),
-      providesTags: (result) => ["Supplier"],
+      providesTags: (result) => ['Supplier']
     }),
     createSuppliers: build.mutation({
       query: (supplier) => ({
-        url: "/suppliers",
-        method: "POST",
-        body: supplier,
+        url: '/suppliers',
+        method: 'POST',
+        body: supplier
       }),
-      invalidatesTags: ["Supplier"],
+      invalidatesTags: ['Supplier']
     }),
     updateSupplier: build.mutation({
       query: (supplier) => ({
         url: `/suppliers/${supplier.id}`,
-        method: "PUT",
-        body: supplier,
+        method: 'PUT',
+        body: supplier
       }),
-      invalidatesTags: ["Supplier"],
+      invalidatesTags: ['Supplier']
     }),
     deleteSupplier: build.mutation({
       query: (supplier) => ({
         url: `/suppliers/${supplier.id}`,
-        method: "DELETE",
+        method: 'DELETE'
       }),
-      invalidatesTags: ["Supplier"],
-    }),
-  }),
-});
+      invalidatesTags: ['Supplier']
+    })
+  })
+})

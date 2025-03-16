@@ -1,41 +1,41 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const warehouseAPI = createApi({
-  reducerPath: "warehouseAPI",
+  reducerPath: 'warehouseAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL || "http://localhost:8000/api",
+    baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
   }),
-  tagTypes: ["Warehouse"],
+  tagTypes: ['Warehouse'],
   endpoints: (build) => ({
     fetchAllWarehouses: build.query({
       query: (limit = 5) => ({
-        url: "/warehouses",
-        params: { _limit: limit },
+        url: '/warehouses',
+        params: { _limit: limit }
       }),
-      providesTags: (result) => ["Warehouse"],
+      providesTags: (result) => ['Warehouse']
     }),
     createWarehouses: build.mutation({
       query: (warehouse) => ({
-        url: "/warehouses",
-        method: "POST",
-        body: warehouse,
+        url: '/warehouses',
+        method: 'POST',
+        body: warehouse
       }),
-      invalidatesTags: ["Warehouse"],
+      invalidatesTags: ['Warehouse']
     }),
     updateWarehouse: build.mutation({
       query: (warehouse) => ({
         url: `/warehouses/${warehouse.id}`,
-        method: "PUT",
-        body: warehouse,
+        method: 'PUT',
+        body: warehouse
       }),
-      invalidatesTags: ["Warehouse"],
+      invalidatesTags: ['Warehouse']
     }),
     deleteWarehouse: build.mutation({
       query: (warehouse) => ({
         url: `/warehouses/${warehouse.id}`,
-        method: "DELETE",
+        method: 'DELETE'
       }),
-      invalidatesTags: ["Warehouse"],
-    }),
-  }),
-});
+      invalidatesTags: ['Warehouse']
+    })
+  })
+})
