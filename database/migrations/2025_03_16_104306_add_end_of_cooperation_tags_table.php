@@ -19,7 +19,7 @@ return new class extends Migration
 
         Schema::create('end_of_cooperation_tag_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('end_of_cooperation_tag_id')->constrained('end_of_cooperation_tags')->onDelete('cascade');
+//            $table->foreignId('end_of_cooperation_tag_id')->constrained('end_of_cooperation_tags')->onDelete('cascade');
             $table->string('language_ietf', 5);
             $table->boolean('is_default')->default(false);
             $table->string('tag_name', 100);

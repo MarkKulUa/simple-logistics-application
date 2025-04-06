@@ -155,3 +155,4 @@ auth.json
 /.idea
 /.vscode
 
+.vercel

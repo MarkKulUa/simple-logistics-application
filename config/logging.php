@@ -53,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily', 'logtail'],
             'ignore_exceptions' => false,
         ],
 
@@ -117,6 +117,15 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
-    ],
 
+        'logtail' => [
+            'driver' => 'monolog',
+            'handler' => Logtail\Monolog\LogtailHandler::class,
+            'with' => [
+                'sourceToken' => env('LOGTAIL_TOKEN'),
+                'source_token' => env('LOGTAIL_TOKEN'),
+                'endpoint' => env('LOG_ENDPOINT', 'https://s1264468.eu-nbg-2.betterstackdata.com'),
+            ],
+        ],
+    ],
 ];
