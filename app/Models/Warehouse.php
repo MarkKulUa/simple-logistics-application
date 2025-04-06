@@ -17,20 +17,13 @@ class Warehouse extends Model
         'supplier_id',
     ];
 
-    public function suplier(): BelongsTo
+    public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
     }
 
-    public function products(): HasManyThrough
+    public function products()
     {
-        return $this->hasManyThrough(
-            Product::class,
-            WarehouseProduct::class,
-            'warehouse_id',
-            'product_id',
-            'id',
-            'product_id'
-        );
+        return $this->belongsToMany(Product::class, 'warehouse_products');
     }
 }

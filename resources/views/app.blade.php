@@ -11,17 +11,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        @vite(['src/main.jsx', 'src/index.css'])
     </head>
     <body class="font-sans antialiased">
-        <div id="app"></div>
-        <script>
-            window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-        </script>
-        <script defer src="/_vercel/speed-insights/script.js"></script>
+        <div id="root"></div>
     </body>
 </html>

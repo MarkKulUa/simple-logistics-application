@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import Layout from "./components/Layout";
+import { Layout } from "./components/Layout";
 
 const Welcome = lazy(() => import("./pages/Welcome"));
 const Shop = lazy(() => import("./pages/Shop"));

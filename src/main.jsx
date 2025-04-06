@@ -7,6 +7,9 @@ import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
 import { routes } from "./routes";
 import "./index.css";
+// import('@vercel/speed-insights').then(({ inject }) => {
+//     inject();
+// });
 
 const store = setupStore();
 

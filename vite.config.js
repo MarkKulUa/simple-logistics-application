@@ -1,12 +1,23 @@
+// vite.config.mjs
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import laravel from 'laravel-vite-plugin'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        laravel({
+            input: ['src/main.jsx', 'src/index.css'],
+            refresh: true,
+        }),
+        react(),
+    ],
     css: {
         modules: {
-            localsConvention: 'camelCaseOnly'
-        }
-    }
+            localsConvention: 'camelCaseOnly',
+        },
+    },
+    build: {
+        outDir: 'public/build',
+        emptyOutDir: true,
+    },
 })

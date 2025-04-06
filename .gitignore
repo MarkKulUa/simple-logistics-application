@@ -146,6 +146,8 @@ dist-ssr
 /public/build
 /public/hot
 /public/storage
+/public/assets/
+/public/manifest.json
 /storage/*.key
 /vendor
 .env.backup

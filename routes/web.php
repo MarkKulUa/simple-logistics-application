@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\ContactControllers\GoogleContactController;
 
-Route::view('/', 'app');
-Route::view('/{any?}', 'app')->where('any', '.*');
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
 
 Route::middleware('web')->group(function () {
     Route::get('/refresh-google-token', function () {

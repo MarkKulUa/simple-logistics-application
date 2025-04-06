@@ -50,7 +50,7 @@ export const deleteWarehouse = createAsyncThunk(
   'warehouses/deleteWarehouse',
   async (warehouse, thunkAPI) => {
     try {
-      const { data } = await axios.delete < IWarehouse > (
+      const { data } = await axios.delete(
         `${host}/warehouses/${warehouse.id}`
       )
       return { id: warehouse.id, data }

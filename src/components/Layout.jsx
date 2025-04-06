@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Navigate, Outlet} from 'react-router-dom';
-import {NavLink} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import axios from '../axios';
-import {useAuth} from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
-const Layout = () => {
-    const {user, setUser} = useAuth();
+export const Layout = () => {
+    const { user, setUser } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
 
     // check if user is logged in or not from server
@@ -39,7 +39,7 @@ const Layout = () => {
     return (
         <>
             <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
-                <div className="container mx-auto flex items-center justify-between px-4 md:px-8">
+                <div className="container flex flex-wrap items-center justify-between mx-auto">
                     <a href="/" className="flex items-center">
                         <img
                             src="/favico.svg"
@@ -51,7 +51,7 @@ const Layout = () => {
 						</span>
                     </a>
                     <button
-                        onClick={() => setMenuOpen(!menuOpen)} // Переключение состояния
+                        data-collapse-toggle="navbar-default"
                         type="button"
                         className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="navbar-default"
@@ -74,15 +74,14 @@ const Layout = () => {
                         className={`${menuOpen ? 'block' : 'hidden'} absolute top-12 right-4 w-3/4 max-w-[280px] md:static md:block md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none rounded-lg md:rounded-none`}
                         id="navbar-default"
                     >
-
-                        <ul className="flex flex-col p-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+                        <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
                             onClick={() => setMenuOpen(false)}
                         >
                             {!user && (
                                 <li>
                                     <NavLink
                                         to="/login"
-                                        className={({isActive}) =>
+                                        className={({ isActive }) =>
                                             isActive
                                                 ? 'block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white'
                                                 : 'block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-white'
@@ -94,7 +93,7 @@ const Layout = () => {
                             <li>
                                 <NavLink
                                     to="/shop"
-                                    className={({isActive}) =>
+                                    className={({ isActive }) =>
                                         isActive
                                             ? 'block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white'
                                             : 'block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-white'
@@ -111,11 +110,10 @@ const Layout = () => {
                     </div>
                 </div>
             </nav>
-            <main className="container mx-auto px-4 md:px-8 mt-10 flex flex-col items-center">
-                <Outlet/>
+            <main className="container flex justify-center flex-col items-center mt-10">
+                <Outlet />
             </main>
         </>
     );
 }
 
-export default Layout;
