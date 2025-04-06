@@ -34,10 +34,10 @@
     ],
     "outputDirectory": "public",
     "env": {
-        "APP_NAME": "Your App Name",
+        "APP_NAME": "simple Logistics Application",
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
-        "APP_URL": "https://laravel-app.vercel.app",
+        "APP_DEBUG": "true",
+        "APP_URL": "https://simple-logistics-application.vercel.app",
 
         "LOG_CHANNEL": "stderr",
         "CACHE_DRIVER": "array",
