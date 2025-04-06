@@ -2,13 +2,13 @@
     "version": 2,
     "framework": null,
     "builds": [
-        {"src": "/api/index.php", "use": "vercel-php@0.7.3"},
-        {"src": "/public/build/assets/**", "use": "@vercel/static"},
-        {"src": "/public/**", "use": "@vercel/static"}
+        { "src": "api/index.php", "use": "vercel-php@0.7.3" },
+        { "src": "build/assets/**", "use": "@vercel/static" },
+        { "src": "**", "use": "@vercel/static" }
     ],
     "routes": [
-        {"src": "/build/assets/(.*)", "dest": "/public/build/assets/$1"},
-        {"src": "/(.*)", "dest": "/api/index.php"}
+        { "src": "/build/assets/(.*)", "dest": "/build/assets/$1" },
+        { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "outputDirectory": "public",
     "env": {
