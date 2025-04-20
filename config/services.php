@@ -39,4 +39,9 @@ return [
         'scopes' => explode(',', env('GOOGLE_SCOPES', 'https://www.googleapis.com/auth/contacts')),
         'token_path' => env('GOOGLE_CLIENT_TOKEN_PATH', 'app/google/token.json'),
     ],
+    'twilio' => [
+        'account_sid' => env('TWILIO_ACCOUNT_SID'),
+        'auth_token' => env('TWILIO_AUTH_TOKEN'),
+        'from_number' => env('TWILIO_FROM_NUMBER'),
+    ],
 ];
