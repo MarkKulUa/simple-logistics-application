@@ -21,7 +21,6 @@ class GoogleContactController extends Controller
             return;
         }
 
-        parent::__construct();
         $this->googleContactsService = new GoogleContactsService();
     }
 

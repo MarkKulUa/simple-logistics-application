@@ -5,7 +5,8 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "lint": "eslint src/ --fix --max-warnings=0"
+        "lint": "eslint src/ --fix --max-warnings=0",
+        "vercel-build": "vite build"
     },
     "dependencies": {
         "@babel/core": "^7.26.10",

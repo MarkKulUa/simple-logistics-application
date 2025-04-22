@@ -18,13 +18,16 @@ class GoogleContactsService
     public function __construct()
     {
         $this->client = new Client();
-        $this->client->setAuthConfig(storage_path(config('services.google.credentials_path')));
-        $this->client->addScope(config('services.google.scopes'));
-        $this->client->setAccessType('offline');
+        $credentialsPath = storage_path(config('services.google.credentials_path'));
+        if (file_exists($credentialsPath)) {
+            $this->client->setAuthConfig($credentialsPath);
+            $this->client->addScope(config('services.google.scopes'));
+            $this->client->setAccessType('offline');
 
-        $this->setAccessToken();
+            $this->setAccessToken();
 
-        $this->peopleService = new PeopleService($this->client);
+            $this->peopleService = new PeopleService($this->client);
+        }
     }
 
     private function setAccessToken(): void

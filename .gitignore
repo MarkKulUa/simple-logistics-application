@@ -158,3 +158,7 @@ auth.json
 /.vscode
 
 .vercel
+/public/build/*
+!/public/build/manifest.json
+!/public/build/assets/
+
