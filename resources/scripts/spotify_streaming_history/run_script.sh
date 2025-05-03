@@ -16,7 +16,7 @@ nvm install $NODE_VERSION
 nvm use $NODE_VERSION
 
 # Installing relations
-npm install axios xlsx csv-stringify bottleneck
+npm install axios xlsx csv-stringify bottleneck cli-progress
 
 # Script running
 node index.js
