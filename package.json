@@ -25,9 +25,11 @@
         "@uiw/codemirror-themes": "^4.23.10",
         "@uiw/react-codemirror": "^4.23.10",
         "@vercel/speed-insights": "^1.2",
-        "axios": "^1.8.4",
+        "axios": "^1.9.0",
+        "bottleneck": "^2.19.5",
         "codemirror": "^6.0.1",
         "compression": "^1.8.0",
+        "csv-stringify": "^6.5.2",
         "eslint-config-prettier": "^10.1.1",
         "eslint-import-resolver-typescript": "^4.3.1",
         "eslint-plugin-prettier": "^5.2.6",
@@ -61,7 +63,8 @@
         "ts-node": "^10.9.2",
         "vite-plugin-istanbul": "^7.0.0",
         "vite-plugin-svgr": "^4.3.0",
-        "vite-tsconfig-paths": "^5.1.4"
+        "vite-tsconfig-paths": "^5.1.4",
+        "xlsx": "^0.18.5"
     },
     "devDependencies": {
         "@tailwindcss/postcss": "^4.1.3",
