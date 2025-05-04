@@ -6,7 +6,9 @@ import Spinner from "./components/Spinner/Spinner";
 import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
 import { routes } from "./routes";
+import { ToastContainer } from 'react-toastify';
 import 'antd/dist/reset.css';
+import 'react-toastify/dist/ReactToastify.css';
 import "../css/index.css";
 // import('@vercel/speed-insights').then(({ inject }) => {
 //     inject();
@@ -19,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <React.StrictMode>
             <AuthProvider>
                 <BrowserRouter>
+                    <ToastContainer position="top-right" autoClose={3000} />
                     <Suspense fallback={<Spinner />}>
                         <Routes>
                             {routes.map(({ path, element, children }) => (

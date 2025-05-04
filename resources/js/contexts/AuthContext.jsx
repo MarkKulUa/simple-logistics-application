@@ -1,34 +1,35 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from '../axios';
 
-const AuthContent = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(
-        JSON.parse(localStorage.getItem('user')) || null
-    );
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('user');
-        }
-    }, [user]);
+        const fetchUser = async () => {
+            try {
+                const resp = await axios.get('/user');
+                if (resp.status === 200) {
+                    setUser(resp.data.data);
+                }
+            } catch (error) {
+                setUser(null);
+                localStorage.removeItem('user');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    // csrf token generation for guest methods
-    // const csrfToken = async () => {
-    //     await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-    //     return true;
-    // };
+        fetchUser();
+    }, []);
 
     return (
-        <AuthContent.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, loading }}>
             {children}
-        </AuthContent.Provider>
+        </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => {
-    return useContext(AuthContent);
-};
+export const useAuth = () => useContext(AuthContext);

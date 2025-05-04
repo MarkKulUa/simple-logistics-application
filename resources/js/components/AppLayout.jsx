@@ -19,6 +19,7 @@ import axios from '../axios';
 
 const { Header, Content } = AntLayout;
 const { useBreakpoint } = Grid;
+import { menuConfig } from '../config/menuConfig';
 
 const AppLayout = () => {
     const { user, setUser } = useAuth();
@@ -26,11 +27,10 @@ const AppLayout = () => {
     const { pathname } = useLocation();
     const [drawerVisible, setDrawerVisible] = useState(false);
     const screens = useBreakpoint();
-
-    const centerMenuItems = [
-        { key: '/', label: 'Welcome' },
-        { key: '/shop', label: 'Warehouse' },
-    ];
+    const centerMenuItems = menuConfig.map(({ key, label }) => ({
+        key,
+        label,
+    }));
 
     const handleNav = ({ key }) => {
         setDrawerVisible(false);
