@@ -3,7 +3,7 @@ import AppLayout from './components/AppLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import { menuConfig } from './config/menuConfig';
 
-const Login = lazy(() => import('./pages/Login'));
+const Login = lazy(() => import('./components/Login/Login'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const pages = {
     Welcome: lazy(() => import('./pages/Welcome')),

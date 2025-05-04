@@ -94,7 +94,7 @@ const AppLayout = () => {
                                 {!user ? (
                                     <>
                                         <Button type="link" onClick={() => navigate('/login')}>Login</Button>
-                                        <Button type="link" onClick={() => navigate('/signin')}>Signin</Button>
+                                        {/*<Button type="link" onClick={() => navigate('/signin')}>Signin</Button>*/}
                                     </>
                                 ) : (
                                     <>

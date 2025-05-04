@@ -1,115 +1,80 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import axios from "../../axios";
+import { Button, Card, Form, Input, Typography, Divider, Space } from 'antd';
+import { GoogleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../contexts/AuthContext';
+import axios from '../../axios';
 
-function Login({ isOpen, closeModal }) {
-    const { handleSubmit, control, errors } = useForm();
+const Login = () => {
+    const [form] = Form.useForm();
+    const navigate = useNavigate();
+    const { setUser } = useAuth();
 
-    const onSubmit = async (data) => {
-        // Replace this with your login logic
-        console.log(data);
-        e.preventDefault();
-        const { email, password } = e.target.elements;
-        const body = {
-            email: email.value,
-            password: password.value,
-        };
-        // await csrfToken();
+    const onFinish = async (values) => {
         try {
-            const resp = await axios.post('/login', body);
+            const resp = await axios.post('/login', values);
             if (resp.status === 200 && resp.data.user) {
                 setUser(resp.data.user);
-                return window.location = "/shop";
+                toast.success('Login successful');
+                navigate('/shop');
             }
-        } catch (error) {
-            if (error.response.status === 401) {
-                setError(error.response.data.message);
-            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Login failed');
         }
     };
 
     return (
-        <div
-            className={`fixed inset-0 flex items-center justify-center z-50 ${
-                isOpen ? '' : 'hidden'
-            }`}
-        >
-            <div className="fixed inset-0 bg-black opacity-50"></div>
-            <div className="bg-white w-full md:w-1/3 rounded-lg overflow-hidden">
-                <div className="p-6">
-                    <h2 className="text-2xl font-semibold mb-4">Login</h2>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="mb-4">
-                            <label className="block mb-2" htmlFor="email">
-                                Email
-                            </label>
-                            <Controller
-                                name="email"
-                                control={control}
-                                rules={{
-                                    required: 'Email is required',
-                                    pattern: {
-                                        value: /^\S+@\S+$/i,
-                                        message: 'Invalid email address',
-                                    },
-                                }}
-                                render={({ field }) => (
-                                    <input
-                                        {...field}
-                                        type="text"
-                                        id="email"
-                                        className={`w-full px-3 py-2 border ${
-                                            errors.email ? 'border-red-500' : 'border-gray-300'
-                                        } rounded-md focus:outline-none focus:border-blue-500`}
-                                    />
-                                )}
-                            />
-                            {errors.email && (
-                                <p className="text-red-500 mt-1">{errors.email.message}</p>
-                            )}
-                        </div>
-                        <div className="mb-6">
-                            <label className="block mb-2" htmlFor="password">
-                                Password
-                            </label>
-                            <Controller
-                                name="password"
-                                control={control}
-                                rules={{
-                                    required: 'Password is required',
-                                    minLength: {
-                                        value: 6,
-                                        message: 'Password must be at least 6 characters',
-                                    },
-                                }}
-                                render={({ field }) => (
-                                    <input
-                                        {...field}
-                                        type="password"
-                                        id="password"
-                                        className={`w-full px-3 py-2 border ${
-                                            errors.password ? 'border-red-500' : 'border-gray-300'
-                                        } rounded-md focus:outline-none focus:border-blue-500`}
-                                    />
-                                )}
-                            />
-                            {errors.password && (
-                                <p className="text-red-500 mt-1">{errors.password.message}</p>
-                            )}
-                        </div>
-                        <div className="text-center">
-                            <button
-                                type="submit"
-                                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
-                            >
-                                Login
-                            </button>
-                        </div>
-                    </form>
+        <div style={{ minHeight: '60vh' }} className="flex items-center justify-center bg-gray-50 px-4">
+            <Card
+                title={<Typography.Title level={3} style={{ margin: 0 }}>Login</Typography.Title>}
+                bordered={false}
+                style={{ width: '100%', maxWidth: 400, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+            >
+                <Form form={form} layout="vertical" onFinish={onFinish}>
+                    <Form.Item
+                        name="email"
+                        label="Email"
+                        rules={[
+                            { required: true, message: 'Please enter your email' },
+                            { type: 'email', message: 'Email format is invalid' },
+                        ]}
+                    >
+                        <Input placeholder="Enter your email" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="password"
+                        label="Password"
+                        rules={[
+                            { required: true, message: 'Please enter your password' },
+                            { min: 6, message: 'Minimum 6 characters' },
+                        ]}
+                    >
+                        <Input.Password placeholder="Enter your password" />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>
+                            Login
+                        </Button>
+                    </Form.Item>
+                </Form>
+
+                <Divider plain>OR</Divider>
+
+                <div style={{ textAlign: 'center' }}>
+                    <Button
+                        icon={<GoogleOutlined />}
+                        type="default"
+                        disabled
+                        block
+                    >
+                        Sign in with Google (coming soon)
+                    </Button>
                 </div>
-            </div>
+            </Card>
         </div>
     );
-}
+};
 
 export default Login;
