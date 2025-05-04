@@ -1,14 +1,3 @@
-// import React from 'react'
-// import ReactDOM from 'react-dom/client'
-// import App from './App'
-//
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//     <React.StrictMode>
-//         <App />
-//     </React.StrictMode>
-// )
-//
-
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -17,6 +6,7 @@ import Spinner from "./components/Spinner/Spinner";
 import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
 import { routes } from "./routes";
+import 'antd/dist/reset.css';
 import "../css/index.css";
 // import('@vercel/speed-insights').then(({ inject }) => {
 //     inject();
