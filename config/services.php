@@ -51,8 +51,4 @@ return [
         'endpoint' => env('VALIDITO__ENDPOINT', 'https://api.validito.com/v1'),
     ],
 
-    'openai' => [
-        'key' => env('OPENAI_KEY'),
-        'chat_endpoint' => env('OPENAI_ENDPOINT', 'https://api.openai.com/v1/chat/completions'),
-    ],
 ];
