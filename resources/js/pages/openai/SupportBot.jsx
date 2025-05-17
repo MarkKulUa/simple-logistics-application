@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Form, Input, Button, Typography, Alert, Space } from 'antd';
+import { useRef, useEffect, useState } from 'react';
+import { Form, Input, Button, Typography, Alert, Space, Card } from 'antd';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
@@ -7,9 +7,10 @@ export default function SupportBot() {
     const [messages, setMessages] = useState([
         { role: 'system', content: 'You are a helpful assistant for e-commerce support.' }
     ]);
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState('How can I return my order?');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const scrollRef = useRef(null);
 
     const onFinish = async () => {
         setError('');
@@ -35,34 +36,55 @@ export default function SupportBot() {
         }
     };
 
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
     return (
-        <Form onFinish={onFinish} layout="vertical">
-            <Form.Item label="Ask something" required>
-                <Input.TextArea
-                    rows={3}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="e.g. How can I return my order?"
-                />
-            </Form.Item>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {error && (
+                <Alert type="error" message={error} showIcon style={{ marginBottom: 12 }} />
+            )}
 
-            <Form.Item>
-                <Button type="primary" htmlType="submit" loading={loading} disabled={!input.trim()}>
-                    Send
-                </Button>
-            </Form.Item>
+            {messages.length > 1 && <Card title="Conversation History" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div>
+                    {messages.filter(m => m.role !== 'system').map((msg, index) => (
+                        <div key={index} style={{ marginBottom: 12 }}>
+                            <Typography.Text strong>
+                                {msg.role === 'user' ? 'You:' : 'AI:'}
+                            </Typography.Text>
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </div>
+                    ))}
+                    <div ref={scrollRef} />
+                </div>
+            </Card>
+            }
 
-            <Space direction="vertical" style={{ width: '100%' }}>
-                {error && <Alert type="error" message={error} showIcon />}
+            <Form onFinish={onFinish} layout="vertical" style={{ marginTop: 16 }}>
+                <Form.Item>
+                    <Input.TextArea
+                        rows={3}
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder="e.g. How can I return my order?"
+                        maxLength={100}
+                        showCount={{ max: 100 }}
+                    />
 
-                <Typography.Title level={5}>Conversation History</Typography.Title>
-                {messages.filter(m => m.role !== 'system').map((msg, index) => (
-                    <div key={index}>
-                        <Typography.Text strong>{msg.role === 'user' ? 'You:' : 'AI:'}</Typography.Text>
-                        <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div>
-                ))}
-            </Space>
-        </Form>
+                </Form.Item>
+
+                <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={loading}
+                        disabled={!input.trim()}
+                    >
+                        Send
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
     );
 }
