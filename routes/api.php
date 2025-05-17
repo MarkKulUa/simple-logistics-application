@@ -4,6 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactControllers\ContactController;
 use App\Http\Controllers\ContactControllers\GoogleContactController;
+use App\Http\Controllers\OpenAI\SupportBotController;
+use App\Http\Controllers\OpenAI\ResumeOptimizerController;
+use App\Http\Controllers\OpenAI\CodeReviewController;
+use App\Http\Controllers\OpenAI\EmailWriterController;
+use App\Http\Controllers\OpenAI\SeoBlogWriterController;
+use App\Http\Controllers\OpenAI\ProductDescriberController;
+use App\Http\Controllers\OpenAI\LanguageCoachController;
+use App\Http\Controllers\OpenAI\SummarizerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,5 +59,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('{id}', [ContactController::class, 'delete']);
 
         Route::get('name/{id}', [ContactController::class, 'getName']);
+    });
+
+    Route::prefix('openai')->group(function () {
+        Route::post('support/ask', [SupportBotController::class, 'ask']);
+        Route::post('resume/optimize', [ResumeOptimizerController::class, 'optimize']);
+        Route::post('code/review', [CodeReviewController::class, 'review']);
+        Route::post('email/generate', [EmailWriterController::class, 'generate']);
+        Route::post('blog/generate', [SeoBlogWriterController::class, 'generate']);
+        Route::post('product/describe', [ProductDescriberController::class, 'generate']);
+        Route::post('language/practice', [LanguageCoachController::class, 'practice']);
+        Route::post('summarize', [SummarizerController::class, 'summarize']);
     });
 });

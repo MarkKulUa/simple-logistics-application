@@ -9,28 +9,41 @@ const pages = {
     Welcome: lazy(() => import('./pages/Welcome')),
     Shop: lazy(() => import('./pages/Shop')),
     Protected: lazy(() => import('./pages/Protected')),
+    SupportBot: lazy(() => import('./pages/openai/SupportBot')),
+    ResumeOptimizer: lazy(() => import('./pages/openai/ResumeOptimizer')),
+    CodeReview: lazy(() => import('./pages/openai/CodeReview')),
+    EmailWriter: lazy(() => import('./pages/openai/EmailWriter')),
+    SeoBlogWriter: lazy(() => import('./pages/openai/SeoBlogWriter')),
+    ProductDescriber: lazy(() => import('./pages/openai/ProductDescriber')),
+    LanguageCoach: lazy(() => import('./pages/openai/LanguageCoach')),
+    Summarizer: lazy(() => import('./pages/openai/Summarizer')),
 };
 
-const menuRoutes = menuConfig.map(({ path, element }) => {
-    const Component = pages[element];
-    if (!Component) throw new Error(`"${element}" not found in pages`);
-    const isProtected = path === '/protected';
+const flattenMenuRoutes = (items) => {
+    return items.flatMap(({ path, element, children }) => {
+        const Component = pages[element];
+        const route = element && Component
+            ? {
+                path,
+                index: path === '/',
+                element: path === '/protected'
+                    ? <ProtectedRoute><Component /></ProtectedRoute>
+                    : <Component />,
+            }
+            : [];
 
-    return {
-        path,
-        index: path === '/',
-        element: isProtected
-            ? <ProtectedRoute><Component /></ProtectedRoute>
-            : <Component />,
-    };
-});
+        const childRoutes = children ? flattenMenuRoutes(children) : [];
+
+        return [route, ...childRoutes];
+    });
+};
 
 export const routes = [
     {
         path: '/',
         element: <AppLayout />,
         children: [
-            ...menuRoutes,
+            ...flattenMenuRoutes(menuConfig),
             { path: 'login', element: <Login /> },
             { path: '404', element: <NotFoundPage /> },
             { path: '*', element: <NotFoundPage /> },

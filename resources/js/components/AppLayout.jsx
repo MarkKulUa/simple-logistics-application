@@ -16,10 +16,16 @@ import {
 import { MenuOutlined } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
 import axios from '../axios';
+import { menuConfig } from '../config/menuConfig';
+import * as Icons from '@ant-design/icons';
+
+const getIcon = (name) => {
+    const IconComponent = Icons[name];
+    return IconComponent ? <IconComponent /> : null;
+};
 
 const { Header, Content } = AntLayout;
 const { useBreakpoint } = Grid;
-import { menuConfig } from '../config/menuConfig';
 
 const AppLayout = () => {
     const { user, setUser } = useAuth();
@@ -27,10 +33,21 @@ const AppLayout = () => {
     const { pathname } = useLocation();
     const [drawerVisible, setDrawerVisible] = useState(false);
     const screens = useBreakpoint();
-    const centerMenuItems = menuConfig.map(({ key, label }) => ({
-        key,
-        label,
-    }));
+
+    const transformMenuConfig = (items) =>
+        items.map(({ key, label, path, icon, children }) => {
+            if (children) {
+                return {
+                    key,
+                    label,
+                    icon: getIcon(icon),
+                    children: transformMenuConfig(children),
+                };
+            }
+            return { key: path, label, icon: getIcon(icon) };
+        });
+
+    const centerMenuItems = transformMenuConfig(menuConfig);
 
     const handleNav = ({ key }) => {
         setDrawerVisible(false);
