@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\OpenAI;
 
 use App\Http\Controllers\Controller;
@@ -13,26 +12,29 @@ class SupportBotController extends Controller
 
     public function ask(Request $request)
     {
-        $request->validate(['question' => 'required|string']);
-
-        $question = $request->input('question');
+        $validated = $request->validate([
+            'messages' => 'required|array|min:1',
+            'messages.*.role' => 'required|string|in:system,user,assistant',
+            'messages.*.content' => 'required|string',
+        ]);
 
         try {
-            $answer = $this->bot->answer($question);
+            $answer = $this->bot->answer($validated['messages']);
 
-            if (!trim($answer)) {
-                Log::warning('SupportBot returned empty response.', ['question' => $question]);
+            if (! $answer) {
+                Log::warning('SupportBot returned empty response', [
+                    'messages' => $validated['messages'],
+                ]);
             }
 
             return response()->json(['answer' => $answer]);
         } catch (\Throwable $e) {
             Log::error('SupportBot error', [
-                'question' => $question,
-                'message' => $e->getMessage(),
+                'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return response()->json(['error' => 'Something went wrong.'], 500);
+            return response()->json(['error' => 'Failed to get AI response.'], 500);
         }
     }
 }

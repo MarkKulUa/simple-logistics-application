@@ -9,42 +9,62 @@ use Throwable;
 
 class OpenAiService
 {
+    const MAX_HISTORY_MESSAGES = 12; // 6 exchanges (user + assistant)
+
     /**
-     * Send a message array to OpenAI's Chat API and return the response.
+     * Compress history if too long and return updated message list.
      *
-     *  gpt-4o-mini-audio-preview,
-     *  gpt-4o-mini-realtime-preview,
-     *  gpt-4o-mini-realtime-preview-2024-12-17,
-     *  gpt-4o-mini-search-preview,
-     *  o3-mini-2025-01-31,
-     *  gpt-4o-mini-search-preview-2025-03-11,
-     *  o1-mini,
-     *  gpt-4o-mini-tts,
-     *  gpt-4o-mini-2024-07-18,
-     *  gpt-4.1-mini,
-     *  gpt-4o-mini,
-     *  gpt-4o-mini-audio-preview-2024-12-17,
-     *  gpt-4o-mini-transcribe,
-     *  gpt-4.1-mini-2025-04-14,
-     *  o3-mini,
-     *  o4-mini-2025-04-16,
-     *  o4-mini,
-     *  codex-mini-latest
-     *
-     * @param array $messages Chat messages array
-     * @param string $model OpenAI model ID
-     * @param int $timeout Timeout in seconds
-     * @return string|null
+     * @param array $messages
+     * @return array
      */
-    public function chat(array $messages, string $model = 'gpt-4o-mini', int $timeout = 30): ?string
+    protected function trimOrSummarize(array $messages): array
+    {
+        if (count($messages) <= self::MAX_HISTORY_MESSAGES) {
+            return $messages;
+        }
+
+        try {
+            $summaryResponse = OpenAI::chat()->create([
+                'model' => 'gpt-4o-mini',
+                'messages' => array_merge(
+                    [
+                        ['role' => 'system', 'content' => 'Summarize this conversation in 2-3 sentences.']
+                    ],
+                    array_slice($messages, 1, self::MAX_HISTORY_MESSAGES) // skip system message
+                ),
+                'temperature' => 0.3,
+            ]);
+
+            $summary = $summaryResponse->choices[0]->message->content ?? null;
+
+            return [
+                $messages[0], // original system prompt
+                ['role' => 'user', 'content' => 'Summary of previous conversation: ' . $summary],
+                end($messages) // last user message
+            ];
+        } catch (Throwable $e) {
+            Log::error('Failed to summarize conversation', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            // fallback: return last 6 messages
+            return array_merge(
+                [$messages[0]],
+                array_slice($messages, -self::MAX_HISTORY_MESSAGES)
+            );
+        }
+    }
+
+    public function chat(array $messages, string $model = 'gpt-4o-mini'): ?string
     {
         try {
-            /** @var CreateResponse $response */
+            $trimmedMessages = $this->trimOrSummarize($messages);
+
             $response = OpenAI::chat()->create([
                 'model' => $model,
-                'messages' => $messages,
+                'messages' => $trimmedMessages,
                 'temperature' => 0.7,
-                'timeout' => $timeout,
             ]);
 
             $content = $response->choices[0]->message->content ?? null;
@@ -52,7 +72,7 @@ class OpenAiService
             if (! $content) {
                 Log::warning('OpenAI returned empty content', [
                     'model' => $model,
-                    'messages' => $messages,
+                    'messages' => $trimmedMessages,
                 ]);
             }
 
@@ -61,7 +81,8 @@ class OpenAiService
             Log::error('OpenAI request failed', [
                 'error' => $e->getMessage(),
                 'model' => $model,
-                'messages' => $messages
+                'messages' => $messages,
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return null;
