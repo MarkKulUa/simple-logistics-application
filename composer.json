@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.10",
         "logtail/monolog-logtail": "^3.3",
         "openai-php/laravel": "^0.11.0",
-        "twilio/sdk": "^8.5"
+        "twilio/sdk": "^8.5",
+        "ext-soap": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
